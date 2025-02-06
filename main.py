@@ -1,3 +1,4 @@
+import os
 import random
 import string
 import json
@@ -24,6 +25,8 @@ def index(request: Request):
 
 @app.post("/")
 async def shorten_url(request: Request, long_url: Annotated[str, Form()]):
+    await check_and_create_file()
+
     async with aiofiles.open("urls.json", "r") as f:
         file_content = await f.read()
         if not file_content:
@@ -54,6 +57,8 @@ async def shorten_url(request: Request, long_url: Annotated[str, Form()]):
 
 @app.get("/{shortened_url}")
 async def url_redirect(shortened_url: str):
+    await check_and_create_file()
+
     async with aiofiles.open("urls.json", "r") as f:
         existing_data = json.loads(await f.read())
         if shortened_url not in existing_data:
@@ -63,5 +68,11 @@ async def url_redirect(shortened_url: str):
     return RedirectResponse(redirect_url)
 
 
+async def check_and_create_file():
+    if not os.path.exists("urls.json"):
+        async with aiofiles.open("urls.json", "w") as f:
+            await f.write(json.dumps({}))
+
+
 if __name__ == "__main__":
-    uvicorn.run(app, host="127.0.0.1", port=5000, log_level="debug")
+    uvicorn.run(app, host="127.0.0.1", port=5000, log_level="info")
