@@ -1,4 +1,3 @@
-import os
 import random
 import string
 import json
@@ -10,6 +9,8 @@ from fastapi import FastAPI, Request, Form, HTTPException
 from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
+
+from utils import check_and_create_file
 
 app = FastAPI()
 
@@ -66,12 +67,6 @@ async def url_redirect(shortened_url: str):
 
     redirect_url = existing_data[shortened_url]
     return RedirectResponse(redirect_url)
-
-
-async def check_and_create_file():
-    if not os.path.exists("urls.json"):
-        async with aiofiles.open("urls.json", "w") as f:
-            await f.write(json.dumps({}))
 
 
 if __name__ == "__main__":
