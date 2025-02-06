@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}URL Shortener{% endblock %}
+
+{% block content %}
+    <div>
+        <form action="{{ url_for('shorten_url') }}" method="post">
+          <h3>Paste the URL to be shortened</h3>
+          <input type="url" name="long_url">
+          <button type="submit">Shorten URL</button>
+        </form>
+    </div>
+{% endblock %}

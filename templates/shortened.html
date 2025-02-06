@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Shortened URL{% endblock %}
+
+{% block content %}
+    <div>
+        <form method="post">
+            <h3>Your shortened URL</h3>
+            <input type="url" name="short_url" value="http://127.0.0.1:5000/{{ short_url }}">
+            <button type="button" onclick="copyUrl()">Copy URL</button>
+            <p>Long URL: <a href="{{ long_url }}">{{ long_url }}</a></p>
+            <button type="button" onclick="window.location.href='/'">Short another URL</button>
+        </form>
+    </div>
+
+    <script>
+        function copyUrl() {
+            const urlInput = document.querySelector('input[name="short_url"]');
+            urlInput.select();
+            document.execCommand('copy');
+        }
+    </script>
+{% endblock %}
