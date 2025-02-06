@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}URL Info{% endblock %}
+
+{% block content %}
+    <div>
+        <form method="post" action="{{ url_for('url_edit_info', short_url=short_url) }}">
+            <h3>Edit shortened URL</h3>
+            <input type="url" name="short_url" value="http://{{ request.url.hostname }}:5000/{{ short_url }}" readonly>
+            <button type="button" onclick="copyUrl()">Copy URL</button>
+            <br>
+            <br>
+            <input type="text" id="new_short_url" name="new_short_url" value="{{ short_url }}" maxlength="5">
+            <button type="submit">Change URL</button>
+            <p>Long URL: <a href="{{ long_url }}">{{ long_url }}</a></p>
+            <p>Total clicks: <a href="{{ total_clicks }}">{{ total_clicks }}</a></p>
+            <p>Last click date: <a href="{{ last_used_date }}">{{ last_used_date.strftime('%Y-%m-%d %H:%M:%S') }}</a></p>
+            <button type="button" onclick="window.location.href='/'">Short another URL</button>
+        </form>
+    </div>
+
+    <script>
+        function copyUrl() {
+            const urlInput = document.querySelector('input[name="short_url"]');
+            urlInput.select();
+            document.execCommand('copy');
+        }
+    </script>
+{% endblock %}

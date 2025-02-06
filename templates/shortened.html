@@ -4,11 +4,11 @@
 
 {% block content %}
     <div>
-        <form method="post">
-            <h3>Your shortened URL</h3>
-            <input type="url" name="short_url" value="http://{{ request.url.hostname }}:5000/{{ short_url }}">
+        <form>
+            <h3>URL Stats</h3>
+            <input type="url" name="short_url" value="http://{{ request.url.hostname }}:5000/{{ short_url }}" readonly>
             <button type="button" onclick="copyUrl()">Copy URL</button>
-            <p>Long URL: <a href="{{ long_url }}">{{ long_url }}</a></p>
+            <button type="button" onclick="window.location.href='/{{ short_url }}/info'">URL Info</button>
             <button type="button" onclick="window.location.href='/'">Short another URL</button>
         </form>
     </div>

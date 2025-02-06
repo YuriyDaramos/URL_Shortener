@@ -1,9 +1,6 @@
-import os
-import json
-import aiofiles as aiofiles
+import random
+import string
 
 
-async def check_and_create_file():
-    if not os.path.exists("urls.json"):
-        async with aiofiles.open("urls.json", "w") as f:
-            await f.write(json.dumps({}))
+def create_short_url():
+    return "".join([random.choice(string.ascii_letters + string.digits) for _ in range(5)])
